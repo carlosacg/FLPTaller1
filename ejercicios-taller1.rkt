@@ -18,23 +18,20 @@
 (count-occurrences 'a '(a b c h i))
 (count-occurrences 'a '(a b c a c a f a))
 (count-occurrences 'x '((f x) y (((x z) x))))
-;; Ejercicio 2 INCOMPLETO******************************************
+;; Ejercicio 2
 ;; list-tails :
 ;; Proposito:
 ;; procedimiento que recibe una lista (lst)
 ;; y retorna una lista con todas las sublistas de los elementos consecutivos
+(define list-tails
+  (lambda (L)
+    (if (null? L) '() (cons L (list-tails (cdr L)))))
+  )
 
-;(define (list-tails lst)
- ; (if (null? lst) empty
- ;      (append (lst)
- ;               (list-tails (cdr lst))
-;                )
-;      )
-;   )
-
-;; Pruebas
-;(list-tails '(1 2 3 4 5))
-;(list-tails '(1 a (e 4) 5 v))
+;Pruebas:
+(list-tails '(4 5 8 ((1) 2) 8 (7 8 9 (2 4))))
+(list-tails '(1 2 3 4 5))
+(list-tails '(1 a (e 4) 5 v))
 
 
 ;; Ejercicio 3
