@@ -148,17 +148,27 @@
 
 (define filter-acum
   (lambda(a b F acum filter)
-    (cond
-      [(<= a b)(cond
-                 [(filter a) (+ acum (filter-acum (+ a 1) b F a filter))]
-                 [else (filter-acum (+ a 1) b F acum filter)])]
-      [else acum])
+    (if (and (eqv? F *) (eqv? acum 0))
+        (cond
+          [(<= a b)(cond
+                     [(filter a) (F 1 (filter-acum (+ a 1) b F a filter))]
+                     [else (filter-acum (+ a 1) b F 1 filter)])]
+          [else acum])
+        
+        (cond
+          [(<= a b)(cond
+                     [(filter a) (F acum (filter-acum (+ a 1) b F a filter))]
+                     [else (filter-acum (+ a 1) b F acum filter)])]
+          [else acum])
+        )
     )
   )
 ;pruebas:
+(filter-acum 1 10 + 0 odd?)
+(filter-acum 1 10 + 0 even?)
+(filter-acum 1 5 * 0 odd?)
 (filter-acum 1 5 + 0 odd?)
-(filter-acum 1 7 + 0 even?)
-(filter-acum 1 9 + 0 even?)
+(filter-acum 1 5 * 0 even?)
 
 ;; Ejercicio 8
 
