@@ -114,7 +114,7 @@
     )
   )
 
-;Pruebas
+;; Pruebas
 (list-set '(a b c d) 3 '(1 5 10)) 
 (list-set '(a b c d) 2 '(1 2))
 (list-set '(a b c d) 2 '(1 2))
@@ -163,7 +163,8 @@
         )
     )
   )
-;pruebas:
+
+;; Pruebas
 (filter-acum 1 10 + 0 odd?)
 (filter-acum 1 10 + 0 even?)
 (filter-acum 1 5 * 0 odd?)
@@ -175,6 +176,27 @@
 ;; Ejercicio 9
 
 ;; Ejercicio 10
+;; up
+;; Proposito:
+;; procedimiento que recibe como argumento una lista lst
+;; retorna una lista similar a lst donde se hayan removido un par
+;; de paréntesis de cada elemento del nivel más alto de lst. 
+
+(define up
+  (lambda (lst)
+    (cond [(null? lst) empty]
+          [else (if (list? (car lst))
+                    (append (car lst) (up (cdr lst)))
+                    (cons (car lst) (up (cdr lst)))
+                    )])
+    )
+  )
+
+;; Pruebas
+
+(up '((1 2) (3 4)))
+(up '((x (y)) z))
+(up '((x (y)) (3 (u) 7)))
 
 ;; Ejercicio 11
 ;; operate
@@ -203,6 +225,27 @@
 ;; Ejercicio 12
 
 ;; Ejercicio 13
+;; compose
+;; Proposito:
+;; procedimiento que recibe dos argumentos proc1 y proc2 que son procedimientos
+;; de un argumento, y un valor val. Retorna la composicion de ambos procedimientos
+;; aplicados sobre val
+
+(define compose
+  (lambda (proc1 proc2)
+    (lambda (val)
+      (cond [(and (list? proc2) (eqv? (car proc2) compose)) ((proc2) val) ]
+            [else (proc1 (proc2 val))])
+      )
+    )
+  )
+
+;; Prueba
+((compose car cdr) '(a b c d))
+((compose symbol? (compose car cdr)) '(a b c d))
+((compose boolean? even?) 5)
+((compose list? cdr) '(+ 2 6))
+((compose number? (compose car cdr)) '(+ 2 6))
 
 ;; Ejercicio 14
 ;; carCdr
