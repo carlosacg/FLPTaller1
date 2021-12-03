@@ -172,6 +172,28 @@
 (filter-acum 1 5 * 0 even?)
 
 ;; Ejercicio 8
+;; mapping
+;; Propósito:
+;; Entrada: 3 argumentos
+;; 1. Una función F
+;; 2. Una lista 1 L1
+;; 3. Una lista 2 L2
+;; Salida: Una lista de pares (a,b) donde se cumple que F(a) = b
+
+(define mapping
+  (lambda (funcion lista1 lista2)
+    (cond [(or (null? lista1) (null? lista2)) empty]
+          [(= (car lista2) (funcion (car lista1)))
+           (cons (list (car lista1) (car lista2)) (mapping funcion (cdr lista1) (cdr lista2)))]
+          [else (mapping funcion (cdr lista1) (cdr lista2))]
+          )
+    )
+  )
+
+;; Pruebas:
+(mapping (lambda (d) (* d 2)) (list 1 2 3) (list 2 4 6))
+(mapping (lambda (d) (* d 3)) (list 1 2 2) (list 2 4 6))
+(mapping (lambda (d) (* d 2)) (list 1 2 3) (list 3 9 12))
 
 ;; Ejercicio 9
 
