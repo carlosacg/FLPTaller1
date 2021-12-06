@@ -266,11 +266,13 @@
     (define (acc x) (+ x 1))
     (define (yk k) (F (+ a (* h k))))
     (define (simpson-term k)
-    (* (cond [(or (= k 0) (= k n)) 1]
-             [(odd? k) 4]
-             [else 2])
-       (yk k)))
-  (* (/ h 3) (sum simpson-term 0 acc n))))
+      (* (cond [(or (= k 0) (= k n)) 1]
+               [(odd? k) 4]
+               [else 2])
+         (yk k)))
+    (* (/ h 3) (sum simpson-term 0 acc n))
+    )
+  )
 
 ;; Pruebas
 (simpson-rule (lambda (x) (* x (* x x))) 1 5 8)
