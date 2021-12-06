@@ -246,6 +246,35 @@
 (operate (list *) '(4 5))
 
 ;; Ejercicio 12
+;; Entrada:
+;; F: función
+;; a: término para evaluación del inicio de la integral
+;; b: término para evaluación del final de la integral
+;; n: subintervalos
+;; Salida: la aproximación de la integral utilizando el método simpson
+
+;;  Función auxiliar de sumatoria
+(define (sum term a next b)
+  (cond [(> a b) 0]
+        [else (+ (term a)(sum term (next a) next b))]
+        )
+  )
+
+(define simpson-rule
+  (lambda (F a b n)
+    (define h (/ (- b a) n))
+    (define (acc x) (+ x 1))
+    (define (yk k) (F (+ a (* h k))))
+    (define (simpson-term k)
+    (* (cond [(or (= k 0) (= k n)) 1]
+             [(odd? k) 4]
+             [else 2])
+       (yk k)))
+  (* (/ h 3) (sum simpson-term 0 acc n))))
+
+;; Pruebas
+(simpson-rule (lambda (x) (* x (* x x))) 1 5 8)
+(simpson-rule (lambda (x) x) 1 5 12)
 
 ;; Ejercicio 13
 ;; compose
