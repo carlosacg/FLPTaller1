@@ -128,7 +128,7 @@
   (lambda (pred lst)
     (cond [(null? lst) empty]
           [(and (not (list? (car lst)))(eq? (pred (car lst)) #t)) (cons (car lst) (generic-filter pred (cdr lst)))]
-          [(and (list? (car lst))) (cons (generic-filter pred (car lst))(generic-filter pred (cdr lst)))]
+          [(list? (car lst)) (cons (generic-filter pred (car lst))(generic-filter pred (cdr lst)))]
           [else (generic-filter pred (cdr lst))]
     )
   )
