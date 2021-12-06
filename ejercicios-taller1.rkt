@@ -120,24 +120,25 @@
 (list-set '(a b c d) 2 '(1 2))
 (list-set '(a b c d) 3 '(1 5 10))
 
-;; Ejercicio 6 INCOMPLETO **************
-;; generic-filter
-;; Proposito: 
-;; Procedimiento que recibe un predicado (pred) y una lista lst
-;; y retorna una lista con los elementos que satisfacen el predicado
+;; Ejercicio 6
+;; Entrada: un predicado y una lista
+;; Salida: lista similar a lst pero solo con los elementos que satisfacen el predicado pred y debe
+;; eliminar los que no lo cumplen
+(define generic-filter
+  (lambda (pred lst)
+    (cond [(null? lst) empty]
+          [(and (not (list? (car lst)))(eq? (pred (car lst)) #t)) (cons (car lst) (generic-filter pred (cdr lst)))]
+          [(and (list? (car lst))) (cons (generic-filter pred (car lst))(generic-filter pred (cdr lst)))]
+          [else (generic-filter pred (cdr lst))]
+    )
+  )
+ )
 
-;(define generic-filter
-;  (lambda (pred lst)
-;    (if (null? lst)
-;        empty
-;        #t ;LOGICA DEL FILTRO GENERICO
-;        )
-;    )
-;  )
-;
-;;Pruebas
-;(generic-filter null? '((1 2) () (((4 5) ()))))
-;(generic-filter even? '((1 2) 3 (((4 5) 6))))
+;; Pruebas:
+(generic-filter even? '((1 2) 3 (((4 5) 6))))
+(generic-filter odd? '((1 2) 3 5 (8 7) (((4 5) 6))))
+(generic-filter positive? '(1 5 6 -5 (-2 5)))
+(generic-filter negative? '(1 5 6 -5 (-2 5)))
 
 ;; Ejercicio 7
 ;; filter-acum
