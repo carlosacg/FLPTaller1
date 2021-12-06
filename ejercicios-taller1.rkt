@@ -120,24 +120,25 @@
 (list-set '(a b c d) 2 '(1 2))
 (list-set '(a b c d) 3 '(1 5 10))
 
-;; Ejercicio 6 INCOMPLETO **************
-;; generic-filter
-;; Proposito: 
-;; Procedimiento que recibe un predicado (pred) y una lista lst
-;; y retorna una lista con los elementos que satisfacen el predicado
+;; Ejercicio 6
+;; Entrada: un predicado y una lista
+;; Salida: lista similar a lst pero solo con los elementos que satisfacen el predicado pred y debe
+;; eliminar los que no lo cumplen
+(define generic-filter
+  (lambda (pred lst)
+    (cond [(null? lst) empty]
+          [(and (not (list? (car lst)))(eq? (pred (car lst)) #t)) (cons (car lst) (generic-filter pred (cdr lst)))]
+          [(list? (car lst)) (cons (generic-filter pred (car lst))(generic-filter pred (cdr lst)))]
+          [else (generic-filter pred (cdr lst))]
+    )
+  )
+ )
 
-;(define generic-filter
-;  (lambda (pred lst)
-;    (if (null? lst)
-;        empty
-;        #t ;LOGICA DEL FILTRO GENERICO
-;        )
-;    )
-;  )
-;
-;;Pruebas
-;(generic-filter null? '((1 2) () (((4 5) ()))))
-;(generic-filter even? '((1 2) 3 (((4 5) 6))))
+;; Pruebas:
+(generic-filter even? '((1 2) 3 (((4 5) 6))))
+(generic-filter odd? '((1 2) 3 5 (8 7) (((4 5) 6))))
+(generic-filter positive? '(1 5 6 -5 (-2 5)))
+(generic-filter negative? '(1 5 6 -5 (-2 5)))
 
 ;; Ejercicio 7
 ;; filter-acum
@@ -245,6 +246,37 @@
 (operate (list *) '(4 5))
 
 ;; Ejercicio 12
+;; Entrada:
+;; F: función
+;; a: término para evaluación del inicio de la integral
+;; b: término para evaluación del final de la integral
+;; n: subintervalos
+;; Salida: la aproximación de la integral utilizando el método simpson
+
+;;  Función auxiliar de sumatoria
+(define (sum term a next b)
+  (cond [(> a b) 0]
+        [else (+ (term a)(sum term (next a) next b))]
+        )
+  )
+
+(define simpson-rule
+  (lambda (F a b n)
+    (define h (/ (- b a) n))
+    (define (acc x) (+ x 1))
+    (define (yk k) (F (+ a (* h k))))
+    (define (simpson-term k)
+      (* (cond [(or (= k 0) (= k n)) 1]
+               [(odd? k) 4]
+               [else 2])
+         (yk k)))
+    (* (/ h 3) (sum simpson-term 0 acc n))
+    )
+  )
+
+;; Pruebas
+(simpson-rule (lambda (x) (* x (* x x))) 1 5 8)
+(simpson-rule (lambda (x) x) 1 5 12)
 
 ;; Ejercicio 13
 ;; compose
