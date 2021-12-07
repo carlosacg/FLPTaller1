@@ -320,3 +320,41 @@
 ;(carCdr 'a '(a b c) 'fail)
 ;(carCdr 'c '(a b c) 'fail)
 ;(carCdr 'a '() 'fail)
+
+;; Ejercicio 15
+;; Entrada: un número N
+;; Salida: N-esima fila del triangulo de Pascal
+;;(1)         Fila 1
+;;(1 1)       Fila 2
+;;(1 2 1)     Fila 3
+;;(1 3 3 1)   Fila 4
+;;(1 4 6 4 1) Fila 5
+
+;; Función del pascal
+(define pascal
+  (lambda (n)
+    (cond [(= n 1) '(1)]
+          [else (pascal-sig-fila (pascal (- n 1)))]
+          )
+    )
+  )
+
+;; Función auxiliar para saber la lista del pascal N+1
+(define (pascal-sig-fila lst)
+   (append '(1)
+           (suma-dos lst)
+           '(1)))
+
+;; Función auxiliar para sumar de a dos pares
+(define (suma-dos lst)
+   (if (null? (cdr lst))
+      '()
+      (cons (+ (car lst) (car (cdr lst)))
+            (suma-dos (cdr lst)))))
+
+;; Pruebas
+(pascal 1)
+(pascal 2)
+(pascal 3)
+(pascal 4)
+(pascal 5)
