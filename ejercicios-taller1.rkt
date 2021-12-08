@@ -1,5 +1,10 @@
 #lang eopl
 
+;; Carlos Andres Cuervo - 2010002
+;; Maria Paula Mosquera - 2110324
+;; Angelica Agudelo - 1741113
+;; Sebastian Tamayo - 2110331
+
 ;; Ejercicio 1
 ;; count-ocurrences :
 ;; Proposito:
