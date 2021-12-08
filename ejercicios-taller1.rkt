@@ -197,6 +197,36 @@
 (mapping (lambda (d) (* d 2)) (list 1 2 3) (list 3 9 12))
 
 ;; Ejercicio 9
+;; prod-scalar-matrix:
+;; Proposito:
+;; procedimiento que recibe una matriz (mat) y un vector (vec)
+;; y retorna una lista con el resultado de realizar el producto escalar
+
+(define aux
+  (lambda (mat vec)
+    (cond [(or (null? mat) (null? vec)) empty]
+          [else (cons (*(car mat) (car vec)) 
+          (aux (cdr mat) (cdr vec )))]
+          )
+    )
+  )
+
+(define prod-scalar-matrix
+  (lambda (mat vec)
+    (cond [(or (null? mat) (null? vec)) empty]
+          [else(append (list(aux(car mat) vec))
+          (prod-scalar-matrix (cdr mat) vec ))]
+          )
+    )
+  )
+
+;Pruebas:
+(prod-scalar-matrix '((1 1 2 4) (2 2 5 4) (2 2 5 4)) '(2 3 1 2))
+;;((2 3 2 8) (4 6 5 8) (4 6 5 8))
+(prod-scalar-matrix '((1 1) (2 2)) '(2 3))
+;;((2 3) (4 6))
+(prod-scalar-matrix '((1 1) (2 2) (3 3)) '(2 3))
+;;((2 3) (4 6) (6 9))
 
 ;; Ejercicio 10
 ;; up
@@ -320,3 +350,41 @@
 ;(carCdr 'a '(a b c) 'fail)
 ;(carCdr 'c '(a b c) 'fail)
 ;(carCdr 'a '() 'fail)
+
+;; Ejercicio 15
+;; Entrada: un número N
+;; Salida: N-esima fila del triangulo de Pascal
+;;(1)         Fila 1
+;;(1 1)       Fila 2
+;;(1 2 1)     Fila 3
+;;(1 3 3 1)   Fila 4
+;;(1 4 6 4 1) Fila 5
+
+;; Función del pascal
+(define pascal
+  (lambda (n)
+    (cond [(= n 1) '(1)]
+          [else (pascal-sig-fila (pascal (- n 1)))]
+          )
+    )
+  )
+
+;; Función auxiliar para saber la lista del pascal N+1
+(define (pascal-sig-fila lst)
+   (append '(1)
+           (suma-dos lst)
+           '(1)))
+
+;; Función auxiliar para sumar de a dos pares
+(define (suma-dos lst)
+   (if (null? (cdr lst))
+      '()
+      (cons (+ (car lst) (car (cdr lst)))
+            (suma-dos (cdr lst)))))
+
+;; Pruebas
+(pascal 1)
+(pascal 2)
+(pascal 3)
+(pascal 4)
+(pascal 5)
