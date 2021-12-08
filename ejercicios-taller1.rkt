@@ -197,6 +197,36 @@
 (mapping (lambda (d) (* d 2)) (list 1 2 3) (list 3 9 12))
 
 ;; Ejercicio 9
+;; prod-scalar-matrix:
+;; Proposito:
+;; procedimiento que recibe una matriz (mat) y un vector (vec)
+;; y retorna una lista con el resultado de realizar el producto escalar
+
+(define aux
+  (lambda (mat vec)
+    (cond [(or (null? mat) (null? vec)) empty]
+          [else (cons (*(car mat) (car vec)) 
+          (aux (cdr mat) (cdr vec )))]
+          )
+    )
+  )
+
+(define prod-scalar-matrix
+  (lambda (mat vec)
+    (cond [(or (null? mat) (null? vec)) empty]
+          [else(append (list(aux(car mat) vec))
+          (prod-scalar-matrix (cdr mat) vec ))]
+          )
+    )
+  )
+
+;Pruebas:
+(prod-scalar-matrix '((1 1 2 4) (2 2 5 4) (2 2 5 4)) '(2 3 1 2))
+;;((2 3 2 8) (4 6 5 8) (4 6 5 8))
+(prod-scalar-matrix '((1 1) (2 2)) '(2 3))
+;;((2 3) (4 6))
+(prod-scalar-matrix '((1 1) (2 2) (3 3)) '(2 3))
+;;((2 3) (4 6) (6 9))
 
 ;; Ejercicio 10
 ;; up
