@@ -6,12 +6,14 @@
 ;; Procedimiento que recibe un elemento (elem) y una lista (lst)
 ;; y retorna la cantidad de veces que aparece (elem) en (lst)
 
-(define (count-occurrences elem lst)
-  (if (null? lst) 0
+(define count-occurrences
+  (lambda (elem lst)
+    (if (null? lst) 0
       (if (eqv? elem (car lst)) (+ 1 (count-occurrences elem (cdr lst)))
           (count-occurrences elem (cdr lst))
           )
       )
+    )
   )
 
 ;; Pruebas
@@ -211,21 +213,21 @@
     )
   )
 
-(define prod-scalar-matrix
+(define prod-scalar-matriz
   (lambda (mat vec)
     (cond [(or (null? mat) (null? vec)) empty]
           [else(append (list(aux(car mat) vec))
-          (prod-scalar-matrix (cdr mat) vec ))]
+          (prod-scalar-matriz (cdr mat) vec ))]
           )
     )
   )
 
 ;Pruebas:
-(prod-scalar-matrix '((1 1 2 4) (2 2 5 4) (2 2 5 4)) '(2 3 1 2))
+(prod-scalar-matriz '((1 1 2 4) (2 2 5 4) (2 2 5 4)) '(2 3 1 2))
 ;;((2 3 2 8) (4 6 5 8) (4 6 5 8))
-(prod-scalar-matrix '((1 1) (2 2)) '(2 3))
+(prod-scalar-matriz '((1 1) (2 2)) '(2 3))
 ;;((2 3) (4 6))
-(prod-scalar-matrix '((1 1) (2 2) (3 3)) '(2 3))
+(prod-scalar-matriz '((1 1) (2 2) (3 3)) '(2 3))
 ;;((2 3) (4 6) (6 9))
 
 ;; Ejercicio 10
